@@ -24,12 +24,8 @@ export default function Counter() {
     </Badge>
     <br/>
     <br/>
-    <Span>
-    <Button variant="contained" onClick={()=> setCount(count+1)}>ADD</Button>
-    </Span>
-    <Span>
-    <Button variant="contained" onClick={()=> setCount(count-1)}>Delete</Button>
-    </Span>
+    <Button variant="contained" onClick={()=> setCount(count+1)} style={{margin:'10px'}}>ADD</Button>
+    <Button variant="contained" onClick={()=> setCount(count-1)} style={{margin:'10px'}}>Delete</Button>
     </Div>  
     </>)
 }
@@ -37,8 +33,4 @@ export default function Counter() {
 const Div = styled.div`
     text-align : center;
     padding : 100px;
-`
-
-const Span = styled.span`
-    width:10px;
 `
