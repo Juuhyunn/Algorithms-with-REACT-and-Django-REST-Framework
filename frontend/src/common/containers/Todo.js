@@ -17,7 +17,7 @@ export default function Todo () {
     const submitForm = e => {
         e.preventDefault()
         setTodo(val)
-        document.getElementById('todo-input').value = '' //text input 의 데이터를 리셋시켜준다
+        document.getElementById('todo-input').value = '' //RESET Data of text input box
     }
     return(<><Div><form onSubmit={submitForm} method='POST'>
     <h1>할 일 목록</h1>
