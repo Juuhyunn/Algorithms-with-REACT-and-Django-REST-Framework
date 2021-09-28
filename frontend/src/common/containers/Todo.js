@@ -1,34 +1,14 @@
-import React, { useState } from 'react'
-import {TextField, Button} from '@mui/material';
+import { TodoList, TodoInput } from "common/index";
+import React from "react";
 import styled from 'styled-components'
 
-
-export default function Todo () {
-    const [todo, setTodo] = useState('')
-    let val = ''
-    const add = e => {
-        e.preventDefault()
-        val = e.target.value
-    }
-    const del = e => {
-        e.preventDefault()
-        setTodo('')
-    }
-    const submitForm = e => {
-        e.preventDefault()
-        setTodo(val)
-        document.getElementById('todo-input').value = '' //RESET Data of text input box
-    }
-    return(<><Div><form onSubmit={submitForm} method='POST'>
-    <h1>할 일 목록</h1>
-    <input type='text' id='todo-input' onChange={add}/>
-    <input type='submit' value = 'ADD'/>
-    <br/>
-    {todo != '' && <div><span>{todo}</span>
-    <input type='submit' value = 'Del' onClick={del}/></div>}
-    </form></Div></>)
+export default function Todo() {
+    return (<><Div>
+        <h1>할 일 목록</h1>
+    <TodoList/>
+    <TodoInput/>
+    </Div></>)
 }
-
 const Div = styled.div`
     text-align : center;
     padding : 100px;
