@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodoAction } from "reducers/todo.reducer";
+import { addUserAction } from "reducers/user.reducer";
 import styled from "styled-components"
 
 
@@ -19,7 +19,9 @@ export default function UserJoin() {
         setEmail('')
         setPw('')
     }
-    const addUser = user => dispatch(addTodoAction(user))
+    const addUser = user => {
+        return(dispatch(addUserAction(user)))
+    }
     const joinId = e => {
         e.preventDefault()
         setEmail(e.target.value)

@@ -3,10 +3,14 @@ import styled from 'styled-components'
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTodoAction, deleteTodoAction } from "reducers/todo.reducer";
 
 export default function TodoList() {
     const todos = useSelector( state => state.todoReducer.todos )
+    const dispatch = useDispatch()
+    const toggleTodo = id => dispatch(toggleTodoAction(id))
+    const deleteTodo = id => dispatch(deleteTodoAction(id))
     return(<>
     <Div>
         {todos.length === 0 &&
@@ -21,19 +25,14 @@ export default function TodoList() {
     <AlertTitle>{todos.length}개의 할 일 목록이 있습니다</AlertTitle>
     </Alert>
     </Stack> }
-    {/* {todos.length !== 0 &&
+    {todos.length !== 0 &&
         todos.map (todo => (
             <div key={todo.id}>
                 <input type='checkbox' checked={todo.complete} onChange={toggleTodo.bind(null, todo.id)}/>
                 {todo.complete ? 
-                    <span style={{textDecoration:'line-through'}}>{todo.name}</span> : <span>{todo.name}</span>}
-            </div>
-        )
-        )
-    
-    } */}
-
-
+                <span style={{textDecoration:'line-through'}}>{todo.name}</span> : <span>{todo.name}</span>}
+                <button onClick={deleteTodo.bind(null, todo.id)}>x</button>
+            </div>))}
     </Div>
     </>)
 }

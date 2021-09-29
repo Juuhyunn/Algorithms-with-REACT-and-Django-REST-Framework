@@ -5,8 +5,9 @@ import styled from "styled-components"
 export default function SignUp() {
     return(<>
     <Div>
-        <UserJoin/>
+        <h1>Sign Up</h1>
         <UserList/>
+        <UserJoin/>
     </Div>
     </>)
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 export default function Todo() {
     return (<><Div>
-        <h1>할 일 목록</h1>
+    <h1>할 일 목록</h1>
     <TodoList/>
     <TodoInput/>
     </Div></>)
