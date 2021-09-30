@@ -35,16 +35,17 @@ export default function UserJoin() {
     const [user, setUser] = useState({
         username: '',
         password : '',
+        name : '',
         email : '',
         birth : '',
         address: ''
     })
-    const {username, password, email, birth, address} = `user`
+    const {username, password, name, email, birth, address} = `user`
     const dispatch = useDispatch()
 
     const handleSubmit = e => {
         e.preventDefault()
-        alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
+        // alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
         userRegister({user})
         .then(res => {alert(`회원가입 완료: ${res.data.result}`)})
         .catch(err => {alert(`회원가입 실패: ${err}`)})
@@ -98,7 +99,7 @@ export default function UserJoin() {
               fullWidth
               name="password"
               label="Password"
-              type="text"
+              type="Password"
               id="password"
               value={password}
               autoComplete="current-password"

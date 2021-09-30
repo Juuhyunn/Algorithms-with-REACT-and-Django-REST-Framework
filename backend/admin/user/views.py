@@ -21,5 +21,5 @@ def users(request):
         serializer = UserSerializer(data=new_user)
         if serializer.is_valid():
             serializer.save()
-            return JsonRespose({'result' : f'Welcome, {serializer.data.get("name")}'}, status=201)
-        return JsonRespose(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'result' : f'Welcome, {serializer.data.get("name")}'}, status=201)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
