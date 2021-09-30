@@ -2,43 +2,168 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUserAction } from "reducers/user.reducer";
 import styled from "styled-components"
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
 
+const theme = createTheme();
 
 export default function UserJoin() {
-    const [email, setEmail] = useState('')
-    const [pw, setPw] = useState('')
+    const [user, setUser] = useState({
+        username: '',
+        password : '',
+        email : '',
+        birth : '',
+        address: ''
+    })
+    const {username, password, email, birth, address} = `user`
     const dispatch = useDispatch()
 
-    const submitForm = e => {
+    const handleSubmit = e => {
         e.preventDefault()
-        const newUser = {
-            email : email,
-            pw : pw
-        }
-        addUser(newUser)
-        setEmail('')
-        setPw('')
+        alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
+        addUser(user)
+        document.getElementById('input-form').value=''
     }
     const addUser = user => {
         return(dispatch(addUserAction(user)))
     }
-    const joinId = e => {
+    const handleChange = e => {
         e.preventDefault()
-        setEmail(e.target.value)
+        const {name, value} = e.target
+        // alert(`name: ${name}, value: ${value}`)
+        setUser({
+            ...user, [name]: value
+        })
     }
-    const joinPw = e => {
-        e.preventDefault()
-        setPw(e.target.value)
-    }
+    
     return (<>
-
-    <Div>
-        <form onSubmit={submitForm} method='POST'>
-            E-mail : <input type='text' id='email' onChange={joinId} value={email}/><br/>
-            PassWord : <input type='text' id='pw' onChange={joinPw} value={pw}/><br/>
-            <input type='submit' value='JOIN US'/>
-        </form>
-    </Div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" id = 'input-form'onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="username"
+              name="username"
+              value={username}
+              autoComplete="email"
+              onChange={handleChange}
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="text"
+              id="password"
+              value={password}
+              autoComplete="current-password"
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="email"
+              label="email"
+              type="text"
+              id="email"
+              value={email}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="birth"
+              label="birth"
+              type="text"
+              id="birth"
+              value={birth}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="address"
+              label="address"
+              type="text"
+              id="address"
+              value={address}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
     </>)
 }
 const Div = styled.div`

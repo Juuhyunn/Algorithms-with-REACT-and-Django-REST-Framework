@@ -4,7 +4,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import { useSelector, useDispatch } from "react-redux";
-import { changePasswordAction } from "reducers/user.reducer";
+import { changePasswordAction, deleteUserAction, changeEmailAction } from "reducers/user.reducer";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,23 +18,42 @@ import { isRejected } from "@reduxjs/toolkit";
 export default function UserList() {
     const users = useSelector(state => state.userReducer.users)
     const dispatch = useDispatch()
-    let target = ''
-    let edit_pw = ''
-    const submitForm = e => {
+    let email_ = ''
+    let pw_ = ''
+    const submitForm1 = e => {
         e.preventDefault()
         const editUser = {
-            email : target,
-            pw : edit_pw
+            email : email_,
+            password : pw_
         }
         dispatch(changePasswordAction(editUser))
-        target = ''
-        edit_pw = ''
+        email_ = ''
+        pw_ = ''
         
     }
     const changePassword = e => {
         e.preventDefault()
-        target = e.target.id
-        edit_pw = e.target.value
+        email_ = e.target.id
+        pw_ = e.target.value
+    }
+    const submitForm2 = e => {
+        e.preventDefault()
+        const editUser = {
+            email : email_,
+            pw : pw_
+        }
+        dispatch(changeEmailAction(editUser))
+        email_ = ''
+        pw_ = ''
+        
+    }
+    const changeEmail = e => {
+        e.preventDefault()
+        pw_ = e.target.id
+        email_ = e.target.value
+    }
+    const deleteUser = email => {
+        dispatch(deleteUserAction(email))
     }
     return(<><Div>
     {users.length === 0 &&
@@ -52,18 +71,17 @@ export default function UserList() {
     {users.length !== 0 && users.map(user => (
         <div key={user.email}>
             {user.email !== '' ?
-            <span> email : {user.email} , password : {user.pw}</span> :
-            <span>이메일이 없는 회원
-                </span>}
-            <form onSubmit={submitForm}>
+            <span> email : {user.email} , password : {user.password}
+            <form onSubmit={submitForm1}>
                 <input type='text' id={user.email} onChange={changePassword}/>
                 <input type='submit' value='PW 수정'/>
-            </form>
-        </div>
-
-    ))
-    
-    }
+            </form></span> :
+            <span>이메일이 없는 회원<form onSubmit={submitForm2}>
+                <input type='text' id={user.password} onChange={changeEmail}/>
+                <input type='submit' value='Email 수정'/>
+            </form></span>}
+            {/* <input type='button' onClick={deleteUser.bind(null, user.email)} value='삭제'/> */}
+            </div>))}
     </Div>
     </>)
 }

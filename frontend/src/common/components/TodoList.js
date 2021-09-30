@@ -10,7 +10,12 @@ export default function TodoList() {
     const todos = useSelector( state => state.todoReducer.todos )
     const dispatch = useDispatch()
     const toggleTodo = id => dispatch(toggleTodoAction(id))
-    const deleteTodo = id => dispatch(deleteTodoAction(id))
+    const deleteTodo = id => {
+        alert(id)
+    dispatch(deleteTodoAction(id))
+
+    }
+    let a = ''
     return(<>
     <Div>
         {todos.length === 0 &&
@@ -31,7 +36,7 @@ export default function TodoList() {
                 <input type='checkbox' checked={todo.complete} onChange={toggleTodo.bind(null, todo.id)}/>
                 {todo.complete ? 
                 <span style={{textDecoration:'line-through'}}>{todo.name}</span> : <span>{todo.name}</span>}
-                <button onClick={deleteTodo.bind(null, todo.id)}>x</button>
+                <button onClick={deleteTodo.bind(null, todo.id)}>{todo.id}</button>
             </div>))}
     </Div>
     </>)
