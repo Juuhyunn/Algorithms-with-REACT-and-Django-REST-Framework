@@ -15,6 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { userRegister } from "api";
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -44,8 +45,9 @@ export default function UserJoin() {
     const handleSubmit = e => {
         e.preventDefault()
         alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
-        addUser(user)
-        document.getElementById('input-form').value=''
+        userRegister({user})
+        .then(res => {alert(`회원가입 완료: ${res.data.result}`)})
+        .catch(err => {alert(`회원가입 실패: ${err}`)})
     }
     const addUser = user => {
         return(dispatch(addUserAction(user)))
