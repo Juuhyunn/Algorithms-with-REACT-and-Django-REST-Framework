@@ -45,7 +45,7 @@ export default function UserJoin() {
 
     const handleSubmit = e => {
         e.preventDefault()
-        // alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
+        alert(`가입 회원 정보 : ${JSON.stringify(user)}`)
         userRegister({user})
         .then(res => {alert(`회원가입 완료: ${res.data.result}`)})
         .catch(err => {alert(`회원가입 실패: ${err}`)})
@@ -103,6 +103,17 @@ export default function UserJoin() {
               id="password"
               value={password}
               autoComplete="current-password"
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="name"
+              label="name"
+              type="text"
+              id="name"
+              value={name}
               onChange={handleChange}
             />
             <TextField
