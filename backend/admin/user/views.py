@@ -6,24 +6,25 @@ from rest_framework.parsers import JSONParser
 
 from admin.user.models import UserVo
 from admin.user.serializers import UserSerializer
+from icecream import ic
 
 
 @api_view(['GET','POST'])
 @parser_classes([JSONParser])
 def users(request):
     if request.method == 'GET':
-        print('**********GET')
+        ic('**********GET')
         all_users = UserVo.objects.all()
         serializer = UserSerializer(all_users, many=True)
         return JsonResponse(data = serializer, safe = False)
     elif request.method == 'POST':
-        print('**********POST')
+        ic('**********POST')
         new_user = request.data['body']
-        print(new_user)
+        ic(new_user)
         serializer = UserSerializer(data = new_user['user'])
-        print('***************************************************')
-        print(serializer)
-        print('***************************************************')
+        ic('***************************************************')
+        ic(serializer)
+        ic('***************************************************')
 
         if serializer.is_valid():
             serializer.save()
