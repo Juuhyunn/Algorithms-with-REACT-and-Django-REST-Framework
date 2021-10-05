@@ -4,7 +4,8 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from "react-redux";
-// import { toggleTodoAction, deleteTodoAction } from "reducers/todo.reducer";
+import { deleteTodoAction, toggleTodoAction } from "../modules/todoSlice";
+
 
 export default function TodoList() {
     const todos = useSelector( state => state.todoReducer.todos )

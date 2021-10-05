@@ -1,5 +1,6 @@
 import axios from 'axios'
 
-const server = 'http://127.0.0.1:8000'
-const header = {'Content-Type':'application/json'}
-export const connect = () => axios.get(`${server}/connect`)
+export const server = 'http://127.0.0.1:8000'
+export const header = {'Content-Type':'application/json'}
+
+export const connect = () => axios.get(`${server}/api/connect`)

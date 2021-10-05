@@ -15,6 +15,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { userRegister } from "../modules/userAPI";
+import { addUserAction } from "../modules/userSlice";
 // import { userRegister } from "features/users/modules/userAPI";
 function Copyright(props) {
     return (

@@ -8,11 +8,8 @@ import { BackTracking, BruteForce, DivideConquer, DynamicProgramming, Greedy } f
 import { Linear, NonLinear, Mathematics } from "features/dataStructures";
 import { Route, Redirect, Switch } from "react-router-dom";
 
-// import { createStore, combineReducers } from 'redux'
-// import { Provider } from 'react-redux'
-// import {todoReducer, userReducer} from 'reducers/index'
-// const rootReducer = combineReducers({todoReducer, userReducer})
-// const store = createStore(rootReducer)
+import { Provider } from 'react-redux'
+import { store } from 'app/store'
 
 const App = () => {
   return (<>

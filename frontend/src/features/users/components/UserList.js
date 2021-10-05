@@ -14,6 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
 import { isRejected } from "@reduxjs/toolkit";
+import { changeEmailAction, changePasswordAction, deleteUserAction } from "../modules/userSlice";
 
 export default function UserList() {
     const users = useSelector(state => state.userReducer.users)
