@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from admin.housing.models import Housing
 
+
 class HousingSerializer(serializers.Serializer):
-    id = serializers.AutoField()
+    housing_id = serializers.AutoField()
     longitude = serializers.FloatField()
     latitude = serializers.FloatField()
     housing_median_age = serializers.FloatField()
