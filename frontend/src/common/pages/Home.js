@@ -1,6 +1,6 @@
-import { SignIn } from "common/index";
+import { SignIn } from "features/users/index";
 import React from "react";
-import { connect } from 'api'
+import { connect } from "common/modules/commonAPI"
 
 const Home = () => {
     const handleClick = e => {
@@ -13,7 +13,7 @@ const Home = () => {
     return (<>
     <h1> HOME </h1>
     <button onClick={handleClick}>Connection</button>
-    <SignIn/>
+    {/* <SignIn/> */}
 
 </>)}
 export default Home

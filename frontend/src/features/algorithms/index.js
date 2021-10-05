@@ -1,0 +1,5 @@
+export {default as BackTracking} from "features/algorithms/pages/BackTracking"
+export {default as BruteForce} from "features/algorithms/pages/BruteForce"
+export {default as DivideConquer} from "features/algorithms/pages/DivideConquer"
+export {default as DynamicProgramming} from "features/algorithms/pages/DynamicProgramming"
+export {default as Greedy} from "features/algorithms/pages/Greedy"
