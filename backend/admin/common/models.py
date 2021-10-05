@@ -1,26 +1,19 @@
-from django.db import models
-
-# Create your models here.
 from dataclasses import dataclass
-
+from icecream import ic
+import pandas as pd
 
 @dataclass
-class Dataset(object):
-    context: str
-    fname: str
+class DFrameGenerator(object):
     train: object
     test: object
     id: str
     label: str
+    fname: object
 
     @property
-    def context(self) -> str: return self._context
-    @context.setter
-    def context(self, context): self._context = context
-    @property
-    def fname(self) -> str: return self._fname
+    def fname(self) -> object: return self._fname
     @fname.setter
-    def fname(self, fname): self._fname= fname
+    def fname(self, fname): self._fname = fname
     @property
     def train(self) -> object: return self._train
     @train.setter
@@ -37,3 +30,34 @@ class Dataset(object):
     def label(self) -> str: return self._label
     @label.setter
     def label(self, label): self._label = label
+
+    def create_model(self):
+        return pd.read_csv(self.fname)
+
+    def model_info(self, model):
+        ic(model.head(3))
+        ic(model.tail(3))
+        ic(model.info())
+        ic(model.describe())
+
+
+'''
+*** model.info() 결과 ***
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 20640 entries, 0 to 20639
+Data columns (total 10 columns):
+ #   Column              Non-Null Count  Dtype
+---  ------              --------------  -----
+ 0   longitude           20640 non-null  float64
+ 1   latitude            20640 non-null  float64
+ 2   housing_median_age  20640 non-null  float64
+ 3   total_rooms         20640 non-null  float64
+ 4   total_bedrooms      20433 non-null  float64
+ 5   population          20640 non-null  float64
+ 6   households          20640 non-null  float64
+ 7   median_income       20640 non-null  float64
+ 8   median_house_value  20640 non-null  float64
+ 9   ocean_proximity     20640 non-null  object
+
+'''

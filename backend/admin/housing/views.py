@@ -1,45 +1,24 @@
-# from django.shortcuts import render
-#
-# # Create your views here.
-# from rest_framework.decorators import api_view, parser_classes
-# from rest_framework.parsers import JSONParser
-# from rest_framework import status
-# from django.http import JsonResponse
-#
-# from admin.housing.models import Housing
-# from admin.housing.serializers import HousingSerializer
-# from icecream import ic
-#
-#
-# @api_view(['GET', 'POST'])
-# @parser_classes([JSONParser])
-# def housings(request):
-#     if request.method == 'GET':
-#         ic('**********GET')
-#         all_housings = Housing.objects.all()
-#         serializer = HousingSerializer(all_housings, many=True)
-#         return JsonResponse(data=serializer, safe=False)
-#     elif request.method == 'POST':
-#         ic('**********POST')
-#         new_housing = request.data['body']
-#         ic(new_housing)
-#         serializer = HousingSerializer(data= new_housing['housing'])
-#         ic('**********')
-#         ic(serializer)
-#         ic('**********')
-#
-
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
 from icecream import ic
-
+import matplotlib.pyplot as plt
 from admin.housing.models import HousingService
 
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def housing(request):
-    h = HousingService()
-    ic(h.new_model())
+def housing_info(request):
+    HousingService().housing_info()
     return JsonResponse({'result': 'Housing Success'})
+
+# def housing(request):
+#     hs = HousingService()
+#     h = hs.new_model()
+#     ic(h.head(3))
+#     ic(h.tail(3))
+#     ic(h.info())
+#     ic(h.describe())
+#     h.hist(bins=50, figsize=(20, 15))
+#     plt.savefig('admin/housing/image/housing-hist.png')
+#     return JsonResponse({'result': 'Housing Success'})
