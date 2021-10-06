@@ -130,7 +130,7 @@ class Reader(ReaderBase):
         return googlemaps.Client(key='')
 
 
-class Print(PrinterBase):
+class Printer(PrinterBase):
     def dframe(self, this):
         ic(this.head(3))
         ic(this.tail(3))
