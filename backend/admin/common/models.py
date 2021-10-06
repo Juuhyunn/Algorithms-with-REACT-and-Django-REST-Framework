@@ -127,7 +127,7 @@ class Reader(ReaderBase):
 
     # pip install googlemaps
     def gmaps(self) -> object:
-        return googlemaps.Client(key='')
+        return googlemaps.Client(key='키는 비밀이지롱')
 
 
 class Printer(PrinterBase):

@@ -11,5 +11,6 @@ from admin.crime.models import CrimeCctvMode
 @api_view(['GET'])
 @parser_classes([JSONParser])
 def crimes(request):
-    CrimeCctvMode().create_crime_model()
+    # CrimeCctvMode().create_crime_model()
+    CrimeCctvMode().create_police_position()
     return JsonResponse({'crime': 'SUCCESS'})
