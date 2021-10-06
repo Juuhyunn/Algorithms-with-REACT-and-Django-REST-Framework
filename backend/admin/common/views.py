@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 # Create your views here.
 
+
 @api_view(['GET'])
 @parser_classes([JSONParser])
 def connection(request):
-    return JsonResponse({'connection':'SUCCESS'})
+    return JsonResponse({'connection': 'SUCCESS'})
