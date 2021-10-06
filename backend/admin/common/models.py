@@ -113,17 +113,17 @@ class Reader(ReaderBase):
         return file.context + file.fname
 
     def csv(self, file) -> object:
-        return pd.read_csv(f'{self.new_file(file)}.csv', encoding='UTF-8', thousands=',')
+        return pd.read_csv(f'{file}.csv', encoding='UTF-8', thousands=',')
 
     def csv_header(self, file, header) -> object:
-        return pd.read_csv(f'{self.new_file(file)}.csv', encoding='UTF-8', thousands=',', header=header)
+        return pd.read_csv(f'{file}.csv', encoding='UTF-8', thousands=',', header=header)
 
     def xls(self, file, header, usecols) -> object:
-        return pd.read_excel(f'{self.new_file(file)}.xls', header=header, usecols=usecols)
+        return pd.read_excel(f'{file}.xls', header=header, usecols=usecols)
 
     def json(self, file) -> object:
         # return json.load(open(f'{self.new_file(file)}json', encoding='UTF-8'))
-        return pd.read_json(f'{self.new_file(file)}.json', encoding='UTF-8')
+        return pd.read_json(f'{file}.json', encoding='UTF-8')
 
     # pip install googlemaps
     def gmaps(self) -> object:
