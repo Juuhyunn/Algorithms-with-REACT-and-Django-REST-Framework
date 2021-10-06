@@ -25,10 +25,36 @@ class CrimeCctvMode(object):
         generator = self.generator
         reader = self.reader
         printer = self.printer
-        generator.context = 'admin/crime/data'
+        generator.context = 'admin/crime/data/'
         generator.fname = 'crime_in_Seoul'
         crime_file_name = reader.new_file(generator)
-        ic(f'파일명 : {crime_file_name}')
+        ic(f'******파일명 : {crime_file_name}')
         crime_model = reader.csv(crime_file_name)
         printer.dframe(crime_model)
         return crime_model
+
+    def create_police_position(self):
+        crime = self.create_crime_model()
+        reader = self.reader
+        station_names = []
+        for name in crime['관서명']:
+            station_names.append(f'서울 {str(name[:-1])} 경찰서')
+        station_address = []
+        station_lats = []
+        station_lngs = []
+        gmaps = reader.gmaps()
+        for name in station_names:
+            temp = gmaps.geocode(name, language='ko')
+            station_address.append(temp[0].get('formatted_address'))
+            temp_loc = temp[0].get('geometry')
+            station_lats.append(temp_loc['location']['lat'])
+            station_lngs.append(temp_loc['location']['lng'])
+            ic(f'name : {temp[0].get("formatted_address")}')
+        gu_names = []
+        for name in station_address:
+            temp = name.split()
+            gu_name = [gu for gu in temp if gu[-1] == '구'][0]
+            gu_names.append(gu_name)
+        crime['구별'] = gu_names
+
+
