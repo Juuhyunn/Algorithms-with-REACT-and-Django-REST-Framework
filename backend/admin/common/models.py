@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 @dataclass
-class DFrameGenerator(object):
+class ValueObject(object):
     train: object
     test: object
     id: str
@@ -59,6 +59,7 @@ class DFrameGenerator(object):
         ic(model.tail(3))
         ic(model.info())
         ic(model.describe())
+        ic(f'***Null Count : {model.isnull()}')
 
 
 '''
@@ -127,7 +128,7 @@ class Reader(ReaderBase):
 
     # pip install googlemaps
     def gmaps(self) -> object:
-        return googlemaps.Client(key='키는 비밀이지롱 ')
+        return googlemaps.Client(key='키는 비밀이지롱')
 
 
 class Printer(PrinterBase):
