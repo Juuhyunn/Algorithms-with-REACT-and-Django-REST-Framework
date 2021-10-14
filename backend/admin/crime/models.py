@@ -31,25 +31,9 @@ class Crime(object):
         crime_file_name = reader.new_file(vo)
         crime_df = reader.csv(crime_file_name)
         ic('########## police station DF 생성 ##########')
-        station_names = []
-        [station_names.append(f'서울 {str(name[:-1])} 경찰서') for name in crime_df['관서명']]
-        station_address = []
-        station_lats = []
-        station_lngs = []
-        gmaps = reader.gmaps()
-        for name in station_names:
-            temp = gmaps.geocode(name, language='ko')
-            station_address.append(temp[0].get('formatted_address'))
-            temp_loc = temp[0].get('geometry')
-            station_lats.append(temp_loc['location']['lat'])
-            station_lngs.append(temp_loc['location']['lng'])
-            # ic(f'{name} : {temp[0].get("formatted_address")}')
-        gu_names = []
-        for name in station_address:
-            temp = name.split()
-            gu_name = [gu for gu in temp if gu[-1] == '구'][0]
-            gu_names.append(gu_name)
-        crime_df['구별'] = gu_names
+        # self.crime_police(crime_df, reader, vo)
+        vo.fname = 'new_data/crime_police'
+        crime_df = reader.csv(reader.new_file(vo))
         ic('########## cctv DF 생성 ##########')
         vo.fname = 'CCTV_in_Seoul'
         cctv_df = reader.csv(reader.new_file(vo))
@@ -78,6 +62,25 @@ class Crime(object):
         # ic(police_df)
 
 
-
+    def police_staion(self, crime_df, reader, vo):
+        station_names = []
+        [station_names.append(f'서울 {str(name[:-1])} 경찰서') for name in crime_df['관서명']]
+        station_address = []
+        station_lats = []
+        station_lngs = []
+        gmaps = reader.gmaps()
+        for name in station_names:
+            temp = gmaps.geocode(name, language='ko')
+            station_address.append(temp[0].get('formatted_address'))
+            temp_loc = temp[0].get('geometry')
+            station_lats.append(temp_loc['location']['lat'])
+            station_lngs.append(temp_loc['location']['lng'])
+            # ic(f'{name} : {temp[0].get("formatted_address")}')
+        gu_names = []
+        for name in station_address:
+            temp = name.split()
+            gu_name = [gu for gu in temp if gu[-1] == '구'][0]
+            gu_names.append(gu_name)
+        crime_df['구별'] = gu_names
 
 
