@@ -5,7 +5,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
 
-from admin.crime.models import CrimeCctvMode
+from admin.crime.models import Crime
+from admin.crime.models_old import CrimeCctvMode
 
 
 @api_view(['GET', 'POST'])
@@ -42,3 +43,10 @@ def merge_cctv_pop(request):
 def merge_crime_cctv(request):
     CrimeCctvMode().merge_crime_cctv()
     return JsonResponse({'MERGE_crime_cctv': 'SUCCESS'})
+
+
+@api_view(['GET'])
+@parser_classes([JSONParser])
+def process(request):
+    Crime().process()
+    return JsonResponse({'crime_process': 'SUCCESS'})
