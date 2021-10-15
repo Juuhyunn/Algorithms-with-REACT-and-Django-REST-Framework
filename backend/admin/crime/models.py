@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 
+import folium
 import numpy as np
 from django.db import models
 # 모델은 정형화 되어 있는 샘플 데이터(진짜 데이터) 를 가지고 있는 데이터프레임
@@ -102,11 +103,36 @@ class Crime(object):
         # 정규화 normalization
         # 1. 빅데이터를 처리하면서 데이터의 범위(도메인)을 일치시킨다
         # 2. 분포(스케일)을 유사하게 만든다
+        ic('############### police_norm_df CREATION ###############')
         police_norm_df = pd.DataFrame(x_scaled, columns=crime_columns, index=police_df.index)
         police_norm_df[arrest_rate_columns] = police_df[arrest_rate_columns]
         police_norm_df['범죄'] = np.sum(police_norm_df[crime_columns], axis=1)
         police_norm_df['검거'] = np.sum(police_norm_df[arrest_rate_columns], axis=1)
         police_norm_df.to_csv(vo.context + 'new_data/police_norm.csv')
+        police_norm_df = pd.read_csv(vo.context + 'new_data/police_norm.csv')
+        print(police_norm_df.columns)
+        temp = crime_df[arrest_columns] / crime_df[arrest_columns].max()
+        crime_df['검거'] = np.sum(temp, axis=1)
+        crime_police_tuple = tuple(zip(police_norm_df['구별'], police_norm_df['범죄']))
+        print('############### folium CREATION ###############')
+        vo.fname = 'geo_simple'
+        state_geo = reader.json(reader.new_file(vo))
+        map = folium.Map(location=[37.5502, 126.982], zoom_start=12, title='Stamen Toner')
+        folium.Choropleth(
+            geo_data=state_geo,
+            name="choropleth",
+            data=crime_police_tuple,
+            columns=["Gu", "Crime Rate"],
+            key_on="feature.id",
+            fill_color="PuRd",
+            fill_opacity=0.7,
+            line_opacity=0.2,
+            legend_name="Crime Rate (%)",
+        ).add_to(map)
+
+        folium.LayerControl().add_to(map)
+
+        map.save(vo.context + 'new_data/folium.html')
 
 
 
@@ -130,6 +156,7 @@ class Crime(object):
             gu_name = [gu for gu in temp if gu[-1] == '구'][0]
             gu_names.append(gu_name)
         crime_df['구별'] = gu_names
+        crime_df.loc[19, "구별"] = "강서구"
         crime_df.to_csv('admin/crime/data/new_data/police_positions.csv')
         test = dict(zip(station_lats, station_lngs))
         print(test)
