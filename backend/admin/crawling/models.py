@@ -17,7 +17,17 @@ class Crawling(object):
         pass
 
     def process(self):
-        self.naver_movie()
+        nltk.download()
+        vo = ValueObject()
+        vo.context = 'admin/crawling/data'
+        # self.naver_movie()
+        # self.tweet_trump()
+        self.samsung_report(vo)
+
+    def samsung_report(self, vo):
+        okt = Okt()
+        vo.fname = 'kr-Report_2018.txt'
+
 
     def naver_movie(self):
         vo = ValueObject()
