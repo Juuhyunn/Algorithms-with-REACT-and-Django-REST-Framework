@@ -1,7 +1,10 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from icecream import ic
 import pandas as pd
 from sklearn import preprocessing
+from wordcloud import WordCloud
+
 from admin.common.models import ValueObject, Printer, Reader
 import csv
 import datetime as dt
@@ -29,6 +32,8 @@ class Crawling(object):
     def samsung_report(self, vo):
         # okt = Okt()
         okt = Okt()
+        daddy = okt.pos('아버지 가방에 들어가신다', norm=True, stem=True)
+        print(f':::: {dt.datetime.now()} ::::::\n {daddy} ')
         okt.pos('삼성전자 글로벌센터 전자사업부', stem=True)
         with open(f'{vo.context}kr-Report_2018.txt', 'r',
                   encoding='UTF-8') as f:
@@ -44,18 +49,23 @@ class Crawling(object):
             temp = [txt_tag[0] for txt_tag in token_pos if txt_tag[1] == 'Noun']
             if len(''.join(temp)) > 1:
                 noun_tokens.append(''.join(temp))
-        texts = ' '.join(noun_tokens)
+        noun_tokens_join  = ' '.join(noun_tokens)
+        tokens = word_tokenize(noun_tokens_join)
         # print(texts)
         with open(f'{vo.context}stopwords.txt', 'r', encoding='UTF-8') as f:
             stopwords = f.read()
         stopwords = stopwords.split(' ')
-        texts = [text for text in tokens if text not in stopwords]
-        freqtxt = pd.Series(dict(FreqDist(texts))).sort_values(ascending=False)
-        print(f'::::::::::::::{dt.datetime.now()}:::::::::::::::::')
-        # print(f'::::::::::::::{freqtxt}:::::::::::::::::')
-        print(f'::::::::::::::{freqtxt[:30]}:::::::::::::::::')
-
-
+        texts_without_stopwords = [text for text in tokens if text not in stopwords]
+        # print(f':::::::: {datetime.now()} ::::::::\n {texts_without_stopwords[:10]}')
+        freq_texts = pd.Series(dict(FreqDist(texts_without_stopwords))).sort_values(ascending=False)
+        # print(f':::::::: {datetime.now()} ::::::::\n {freq_texts[:30]}')
+        wcloud = WordCloud(f'{vo.context}D2Coding.ttf', relative_scaling=0.2,
+                           background_color='white').generate(' '.join(texts_without_stopwords))
+        plt.figure(figsize=(12, 12))
+        plt.imshow(wcloud, interpolation='bilinear')
+        plt.axis('off')
+        plt.savefig(f'{vo.context}wcloud.png')
+        print(f':::::::: {dt.datetime.now()} :::::::')
 
 
     def naver_movie(self):
