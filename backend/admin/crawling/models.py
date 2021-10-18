@@ -9,7 +9,9 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from konlpy.tag import Okt
 from nltk.tokenize import word_tokenize
-import nltk
+from nltk import FreqDist
+
+
 import re
 
 class Crawling(object):
@@ -17,16 +19,43 @@ class Crawling(object):
         pass
 
     def process(self):
-        nltk.download()
+        # nltk.download()
         vo = ValueObject()
-        vo.context = 'admin/crawling/data'
+        vo.context = 'admin/crawling/data/'
         # self.naver_movie()
         # self.tweet_trump()
         self.samsung_report(vo)
 
     def samsung_report(self, vo):
+        # okt = Okt()
         okt = Okt()
-        vo.fname = 'kr-Report_2018.txt'
+        okt.pos('삼성전자 글로벌센터 전자사업부', stem=True)
+        with open(f'{vo.context}kr-Report_2018.txt', 'r',
+                  encoding='UTF-8') as f:
+            texts = f.read()
+        # print(texts)
+        temp = texts.replace('\n', ' ')
+        tokenizer = re.compile(r'[^ ㄱ-힣]+')
+        temp = tokenizer.sub('', temp)
+        tokens = word_tokenize(temp)
+        noun_tokens = []
+        for i in tokens:
+            token_pos = okt.pos(i)
+            temp = [txt_tag[0] for txt_tag in token_pos if txt_tag[1] == 'Noun']
+            if len(''.join(temp)) > 1:
+                noun_tokens.append(''.join(temp))
+        texts = ' '.join(noun_tokens)
+        # print(texts)
+        with open(f'{vo.context}stopwords.txt', 'r', encoding='UTF-8') as f:
+            stopwords = f.read()
+        stopwords = stopwords.split(' ')
+        texts = [text for text in tokens if text not in stopwords]
+        freqtxt = pd.Series(dict(FreqDist(texts))).sort_values(ascending=False)
+        print(f'::::::::::::::{dt.datetime.now()}:::::::::::::::::')
+        # print(f'::::::::::::::{freqtxt}:::::::::::::::::')
+        print(f'::::::::::::::{freqtxt[:30]}:::::::::::::::::')
+
+
 
 
     def naver_movie(self):
