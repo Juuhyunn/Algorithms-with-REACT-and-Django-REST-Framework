@@ -1,13 +1,40 @@
 import numpy as np
 import tensorflow as tf
+from matplotlib import pyplot as plt
+from tensorflow import keras
+
+from admin.common.models import ValueObject
 
 
 class FashionClassification(object):
     def __init__(self):
+        vo = ValueObject()
+        vo.context = 'admin/tensor/data/'
         self.class_name = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
+    def hook(self):
+        images = self.get_data()
+        model = self.create_model()
+        model = self.train_model()
+        self.test_model(model)
+        arr = self.predict()
+        self.plot_image()
+        self.plot_value_array()
+        plt.savefig(f'{self.vo.context}fashion_random.png')
+
     def get_data(self) -> []:
-        pass
+        fashion_mnist = keras.datasets.fashion_mnist
+        (X_train_full, y_train_full), (X_test, y_test) = fashion_mnist.load_data()
+        print(X_train_full.shape)
+        print(X_train_full.dtype)
+        print(f'훈련 행 : {X_train_full.shape[0]}   열 : {X_train_full.shape[1]}')
+        print(f'테스트 행 : {X_test.shape[0]}   열 : {X_test.shape[1]}')
+        plt.figure()
+        plt.imshow(X_train_full[3])
+        plt.colorbar()
+        plt.grid(False)
+        plt.show()
+        return [X_train_full, y_train_full, X_test, y_test]
 
     def preprocess(self):
         pass
