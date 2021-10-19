@@ -8,9 +8,12 @@ from admin.common.models import ValueObject
 
 class FashionClassification(object):
     def __init__(self):
-        vo = ValueObject()
-        vo.context = 'admin/tensor/data/'
+        self.vo = ValueObject()
+        self.vo.context = 'admin/tensor/data/'
         self.class_name = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+    def fashion(self):
+        self.get_data()
 
     def hook(self):
         images = self.get_data()
@@ -20,7 +23,6 @@ class FashionClassification(object):
         arr = self.predict()
         self.plot_image()
         self.plot_value_array()
-        plt.savefig(f'{self.vo.context}fashion_random.png')
 
     def get_data(self) -> []:
         fashion_mnist = keras.datasets.fashion_mnist
@@ -33,7 +35,7 @@ class FashionClassification(object):
         plt.imshow(X_train_full[3])
         plt.colorbar()
         plt.grid(False)
-        plt.show()
+        plt.savefig(f'{self.vo.context}fashion_random.png')
         return [X_train_full, y_train_full, X_test, y_test]
 
     def preprocess(self):
