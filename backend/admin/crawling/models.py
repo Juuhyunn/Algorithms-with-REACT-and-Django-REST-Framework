@@ -69,6 +69,7 @@ class Crawling(object):
 
 
     def naver_movie(self):
+
         vo = ValueObject()
         vo.context = 'admin/crawling/data'
         vo.url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn'
