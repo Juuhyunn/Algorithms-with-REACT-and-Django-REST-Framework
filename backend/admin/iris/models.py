@@ -36,6 +36,34 @@ class Iris(object):
             1  5.0  2.3     3.3         1.0          1
             2  4.9  2.5     4.5         1.7          2
         '''
+        # column order in CSV file
+        column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
+        feature_names = column_names[:-1]
+        label_name = column_names[-1]
+        print(f"Features: {feature_names}")
+        print(f"Label: {label_name}")
+        class_names = ['Iris setosa', 'Iris versicolor', 'Iris virginica']
+        batch_size = 32
+
+        train_dataset = tf.data.experimental.make_csv_dataset(
+            train_dataset_fp,
+            batch_size,
+            column_names=column_names,
+            label_name=label_name,
+            num_epochs=1)
+        features, labels = next(iter(train_dataset))
+
+        print(features)
+        plt.scatter(features['petal_length'],
+                    features['sepal_length'],
+                    c=labels,
+                    cmap='viridis')
+
+        plt.xlabel("Petal length")
+        plt.ylabel("Sepal length")
+        plt.savefig(f'{self.vo.context}iris_tf_scatter.png')
+
+
 
     def base(self):
         np.random.seed(0)
