@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from matplotlib import pyplot as plt
 from matplotlib.colors import ListedColormap
@@ -6,14 +8,34 @@ from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
 import numpy as np
 
-from admin.common.models import ValueObject
+from admin.common.models import ValueObject, Reader
 from admin.tensor.models import Perceptron
+
+import tensorflow as tf
 
 
 class Iris(object):
     def __init__(self):
         self.vo = ValueObject()
         self.vo.context = 'admin/iris/data/'
+
+    def iris_by_tf(self):
+        reader = Reader()
+        vo = self.vo
+        train_dataset_url = "https://storage.googleapis.com/download.tensorflow.org/data/iris_training.csv"
+        train_dataset_fp = tf.keras.utils.get_file(fname=os.path.basename(train_dataset_url),
+                                                   origin=train_dataset_url)
+        # print("Local copy of the dataset file: {}".format(train_dataset_fp)) # 파일 저장 경로
+        vo.fname = 'iris_training'
+        iris_df = reader.csv(reader.new_file(vo))
+        print(f'iris_df HEAD : {iris_df.head(3)}')
+        '''
+            iris_df HEAD :
+                120    4  setosa  versicolor  virginica
+            0  6.4  2.8     5.6         2.2          2
+            1  5.0  2.3     3.3         1.0          1
+            2  4.9  2.5     4.5         1.7          2
+        '''
 
     def base(self):
         np.random.seed(0)
