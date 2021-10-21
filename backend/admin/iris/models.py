@@ -1,5 +1,6 @@
 from django.db import models
 from matplotlib import pyplot as plt
+from matplotlib.colors import ListedColormap
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
@@ -106,7 +107,9 @@ class Iris(object):
         y = np.where(iris_mini == 'Iris-setosa', -1, 1)  # 2진 분류는 -1과 1
         X = iris.iloc[0:100, [0,2]].values               # X값 : 확률변수로 사용?
         clf = Perceptron(eta = 0.1, n_iter=10)
-        self.draw_scatter(X)
+        # self.draw_scatter(X)
+        self.draw_decision_regions(X, y, classifier=clf, resolution=0.02)
+
 
     def draw_scatter(self, X):
         plt.scatter(X[:50, 0], X[:50, 1], color='red', marker='o', label='setosa')
