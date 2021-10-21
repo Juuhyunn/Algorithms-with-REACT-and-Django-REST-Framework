@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/crawling/', include('admin.crawling.urls')),
     path('api/tensor/', include('admin.tensor.urls')),
     path('api/iris/', include('admin.iris.urls')),
+    path('api/mycv2/', include('admin.myCV2.urls')),
 ]

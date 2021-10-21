@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'admin.crawling',
     'admin.tensor',
     'admin.iris',
+    'admin.myCV2',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
