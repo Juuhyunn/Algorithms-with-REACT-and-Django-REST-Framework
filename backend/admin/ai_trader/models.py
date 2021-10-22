@@ -77,7 +77,8 @@ class AiTrader(object):
 
 class Trading:
     def __init__(self):
-        pass
+        self.vo = ValueObject()
+        self.vo.context = 'admin/ai_trader/data/'
 
     def sigmoid(self, x):
         return 1 / (1 + math.exp(-x))
