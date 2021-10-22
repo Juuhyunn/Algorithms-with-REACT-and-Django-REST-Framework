@@ -28,3 +28,4 @@ def iris_by_tf(request):
     Iris().iris_by_tf()
     return JsonResponse({'Iris TensorFlow': 'SUCCESS'})
 
+
