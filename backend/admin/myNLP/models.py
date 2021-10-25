@@ -1,4 +1,5 @@
 import csv
+from collections import defaultdict
 
 import tensorflow as tf
 from bs4 import BeautifulSoup
@@ -36,11 +37,24 @@ class NaverMovie(object):
         # 카테고리 0. 긍정 1. 부정
         n_class0 = len([1 for _, point in train_X if point > 3.5])
         n_class1 = len([train_X]) - n_class0
+        counts = defaultdict(lambda: [0, 0])
+        for doc, point in train_X:
+            if self.isNumber(doc) is False:
+                words = doc.split()
+                for word in words:
+                    counts[word][0 if point > 3.5 else 1] += 1
         word_count = self.count_words(train_X)
         word_probs = None
 
     def count_words(self, train_X):
         pass
+
+    def isNumber(self, doc):
+        try:
+            float(doc)
+            return True
+        except ValueError:
+            return False
 
 
 class Imdb(object):
