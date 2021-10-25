@@ -43,11 +43,8 @@ class NaverMovie(object):
                 words = doc.split()
                 for word in words:
                     counts[word][0 if point > 3.5 else 1] += 1
-        word_count = self.count_words(train_X)
-        word_probs = None
-
-    def count_words(self, train_X):
-        pass
+        word_counts = counts
+        print(f'word_counts ::: {word_counts}')
 
     def isNumber(self, doc):
         try:
