@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin.myCV2',
     'admin.myrnn',
     'admin.ai_trader',
+    'admin.nlp',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
