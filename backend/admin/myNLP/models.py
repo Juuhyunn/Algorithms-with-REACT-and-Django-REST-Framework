@@ -6,7 +6,7 @@ from tensorflow import keras
 import numpy as np
 import matplotlib.pyplot as plt
 from selenium import webdriver
-
+import pandas as pd
 
 from admin.common.models import ValueObject
 
@@ -16,18 +16,31 @@ class NaverMovie(object):
         self.vo = ValueObject()
         self.vo.context = 'admin/myNLP/data/'
 
-    def naver_process(self):
+    def web_scraping(self):
         ctx = self.vo.context
         driver = webdriver.Chrome(f'{ctx}chromedriver')
         driver.get('https://movie.naver.com/movie/sdb/rank/rmovie.naver')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         all_divs = soup.find_all('div', attrs={'class', 'tit3'})
-        products = [div.a.string for div in all_divs]
-        for product in products:
-            with open(f'{ctx}naver_movie_dataset_{product}.csv', 'w', encoding='UTF-8', newline='') as f:
-                wr = csv.writer(f, delimiter=',')
-                wr.writerows(product)
+        products = [[div.a.string for div in all_divs]]
+        with open(f'{ctx}naver_movie_dataset.csv', 'w', encoding='UTF-8', newline='') as f:
+            wr = csv.writer(f, delimiter=',')
+            wr.writerows(products)
         driver.close()
+
+    def naver_process(self):
+        ctx = self.vo.context
+        # self.web_scraping()
+        corpus = pd.read_table(f'{ctx}naver_movie_dataset.csv', sep=',', encoding='UTF-8')
+        train_X = np.array(corpus)
+        # 카테고리 0. 긍정 1. 부정
+        n_class0 = len([1 for _, point in train_X if point > 3.5])
+        n_class1 = len([train_X]) - n_class0
+        word_count = self.count_words(train_X)
+        word_probs = None
+
+    def count_words(self, train_X):
+        pass
 
 
 class Imdb(object):
