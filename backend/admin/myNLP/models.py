@@ -29,6 +29,19 @@ class NaverMovie(object):
             wr.writerows(products)
         driver.close()
 
+    def review_scraping(self):
+        ctx = self.vo.context
+        driver = webdriver.Chrome(f'{ctx}chromedriver')
+        driver.get('https://movie.naver.com/movie/point/af/list.naver?&page=1')
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        all_divs = soup.find_all('div', attrs={'class', 'tit3'})
+        products = [[div.a.string for div in all_divs]]
+        with open(f'{ctx}naver_movie_dataset.csv', 'w', encoding='UTF-8', newline='') as f:
+            wr = csv.writer(f, delimiter=',')
+            wr.writerows(products)
+        driver.close()
+
+
     def naver_process(self):
         ctx = self.vo.context
         # self.web_scraping()
