@@ -21,3 +21,9 @@ def imdb_process(request):
 def naver_process(request):
     NaverMovie().naver_process()
     return JsonResponse({'NIP naver_process': 'SUCCESS'})
+
+@api_view(['GET', 'POST'])
+@parser_classes([JSONParser])
+def review_scraping(request):
+    NaverMovie().review_scraping()
+    return JsonResponse({'NIP review_scraping': 'SUCCESS'})

@@ -53,11 +53,17 @@ class NaverMovie(object):
         driver = webdriver.Chrome(f'{ctx}chromedriver')
         driver.get('https://movie.naver.com/movie/point/af/list.naver?&page=1')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
-        all_divs = soup.find_all('div', attrs={'class', 'tit3'})
-        products = [[div.a.string for div in all_divs]]
-        with open(f'{ctx}naver_movie_dataset.csv', 'w', encoding='UTF-8', newline='') as f:
+        all_divs = soup.find_all('td', attrs={'class', 'title'})
+        reviews = [str(td.br.next_element.string) for td in all_divs]
+        for i, j in enumerate(reviews):
+            reviews[i] = j.replace('\n', '')
+            reviews[i] = reviews[i].replace('\t', '')
+        ratings = [td.em.string for td in all_divs]
+        result = {ratings[i]:reviews[i] for i in range(len(reviews))}
+        with open(f'{ctx}naver_movie_review_dataset.csv', 'w', encoding='UTF-8', newline='') as f:
             wr = csv.writer(f, delimiter=',')
-            wr.writerows(products)
+            wr.writerow(result.keys())
+            wr.writerow(result.values())
         driver.close()
 
 
