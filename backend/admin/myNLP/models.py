@@ -1,4 +1,5 @@
 import csv
+import math
 from collections import defaultdict
 
 import tensorflow as tf
@@ -16,6 +17,24 @@ class NaverMovie(object):
     def __init__(self):
         self.vo = ValueObject()
         self.vo.context = 'admin/myNLP/data/'
+
+    def classify(self, doc):
+        return self.class0_probs(self.model_fit(), doc)
+
+    def class0_probs(self, word_probs, doc):
+        docwords = doc.split()
+        log_prob_if_class0 = log_prob_if_class1 = 0.0
+        for word, log_prob_if_class0, log_prob_if_class1 in word_probs:
+            if word in docwords:
+                log_prob_if_class0 += math.log(log_prob_if_class0)
+                log_prob_if_class1 += math.log(log_prob_if_class1)
+            else:
+                log_prob_if_class0 += math.log(1.0 - log_prob_if_class0)
+                log_prob_if_class1 += math.log(1.0 - log_prob_if_class1)
+        prob_if_class0 = math.exp(log_prob_if_class0)
+        prob_if_class1 = math.exp(log_prob_if_class1)
+        return prob_if_class0 / (prob_if_class0 + prob_if_class1)
+
 
     def web_scraping(self):
         ctx = self.vo.context
@@ -42,7 +61,7 @@ class NaverMovie(object):
         driver.close()
 
 
-    def naver_process(self):
+    def model_fit(self):
         ctx = self.vo.context
         # self.web_scraping()
         corpus = pd.read_table(f'{ctx}naver_movie_dataset.csv', sep=',', encoding='UTF-8')
@@ -58,6 +77,8 @@ class NaverMovie(object):
                     counts[word][0 if point > 3.5 else 1] += 1
         word_counts = counts
         print(f'word_counts ::: {word_counts}')
+        [(w,
+          ) for w, (class0, class1) in counts.items()]
 
     def isNumber(self, doc):
         try:

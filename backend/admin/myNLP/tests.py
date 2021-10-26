@@ -3,7 +3,12 @@ from collections import defaultdict
 from django.test import TestCase
 
 # Create your tests here.
+from admin.myNLP.models import NaverMovie
+
 if __name__ == '__main__':
+    n = NaverMovie()
+    n.model_fit()
+    n.classify('')
     dc1 = {}
     dc2 = {}
     dc3 = {}
