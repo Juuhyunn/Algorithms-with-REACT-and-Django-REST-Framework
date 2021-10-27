@@ -49,10 +49,6 @@ import numpy as np
 import math
 # drive.mount('/content/gdrive')
 # !pip install tensorflow==2.0.0-rc1
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-import numpy as np
-from tensorflow.keras.utils import to_categorical
 
 
 class NewsCrawling(object):
