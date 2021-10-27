@@ -1,42 +1,27 @@
-import React from "react";
+import React from 'react';
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
+import './App.css';
+import { Route, Redirect, Switch } from 'react-router-dom'
+import { Home, Navigation } from './features/common/index';
+import { UserAdd, UserDetail, UserList, UserLogin, UserModify, UserRemove } from './features/user/index'
 
-import { Navigation, Home } from 'common'
-import { CounterOld } from 'features/counterOld'
-import { SignIn, SignUp } from 'features/users'
-import { Todo } from "features/todos";
-import { BackTracking, BruteForce, DivideConquer, DynamicProgramming, Greedy } from "features/algorithms";
-import { Linear, NonLinear, Mathematics } from "features/dataStructures";
-import { Route, Redirect, Switch } from "react-router-dom";
-
-import { Provider } from 'react-redux'
-import { store } from 'app/store'
-
-const App = () => {
+function App() {
   return (<>
-  <Provider store = {store}>
-    <Navigation/>
-    <Switch>
-      <Route exact path='/' component = {Home}/>
-      <Redirect from='/home' to = {'/'}/>
-      <Route exact path='/counter' component = {CounterOld}/>
-      <Route exact path='/signin' component = {SignIn}/>
-      <Route exact path='/signup' component = {SignUp}/>
-      <Route exact path='/todo' component = {Todo}/>
+  <Home/>
+  <Navigation/>
+  <Switch>
+    <Route exact path='/' component= { Home }/>
+    <Redirect from='/home' to= { '/' }/>
+    <Route exact path='/users/add' component= { UserAdd }/>
+    <Route exact path='/users/detail' component= { UserDetail }/>
+    <Route exact path='/users/list' component= { UserList }/>
+    <Route exact path='/users/login' component= { UserLogin }/>
+    <Route exact path='/users/modify' component= { UserModify }/>
+    <Route exact path='/users/remove' component= { UserRemove }/>    
+  </Switch>
 
-      <Route exact path='/backtracking' component = {BackTracking}/>
-      <Route exact path='/bruteforce' component = {BruteForce}/>
-      <Route exact path='/divideconquer' component = {DivideConquer}/>
-      <Route exact path='/dynamicprogramming' component = {DynamicProgramming}/>
-      <Route exact path='/greedy' component = {Greedy}/>
-
-
-      <Route exact path='/linear' component = {Linear}/>
-      <Route exact path='/nonlinear' component = {NonLinear}/>
-      <Route exact path='/mathematics' component = {Mathematics}/>
-    </Switch>
-  </Provider>
-  </>
-  );
+  </>);
 }
 
 export default App;

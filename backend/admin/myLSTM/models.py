@@ -6,6 +6,8 @@ import tensorflow as tf
 tf.disable_v2_behavior()
 from pandas.io.parsers import read_csv
 import numpy as np
+
+
 class Trader:
     def __init__(self):
         self.code_df = pd.DataFrame({'name':[], 'code':[]})
@@ -107,13 +109,7 @@ class Trader:
             saver = tf.train.Saver()
             saver.save(sess, 'trader.ckpt')
 
-
-
-
-
-if __name__ == '__main__':
-
-    def print_menu():
+    def print_menu(self):
         print('0. EXIT\n'
               '1. 종목헤드\n'
               '2. 종목컬럼명 보기\n'
@@ -122,20 +118,19 @@ if __name__ == '__main__':
               '5. 모델 생성 \n')
         return input('CHOOSE ONE \n')
 
-
-    m = Trader()
-    while 1:
-        menu = print_menu()
-        print('MENU %s \n' % menu)
-        if menu == '0':
-            break
-        elif menu == '1':
-            m.code_df_head()
-        elif menu == '2':
-            print(m.test('005930'))
-        elif menu == '3':
-            print(m.rename_item_name(m.test('005930')))
-        elif menu == '4':
-            m.crawling()
-        elif menu == '5':
-            m.model()
+    def process(self):
+        while 1:
+            menu = self.print_menu()
+            print('MENU %s \n' % menu)
+            if menu == '0':
+                break
+            elif menu == '1':
+                self.code_df_head()
+            elif menu == '2':
+                print(self.test('005930'))
+            elif menu == '3':
+                print(self.rename_item_name(self.test('005930')))
+            elif menu == '4':
+                self.crawling()
+            elif menu == '5':
+                self.model()
