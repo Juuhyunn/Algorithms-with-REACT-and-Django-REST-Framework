@@ -47,7 +47,7 @@ import random
 class MyRNN(object):
     def __init__(self):
         self.vo = ValueObject()
-        self.vo.context = 'admin/myrnn/data/'
+        self.vo.context = 'admin/myRNN/data/'
 
     def ai_trader(self):
         pass
