@@ -7,9 +7,10 @@ export function UserList() {
   const [list, setList] = useState([])
   
   const fetchList = () => {
-    axios.get(`${SERVER}/api/users/list`)
-    .then(res =>
-      setList(res.data)
+    axios.get(`${SERVER}/api/users`)
+    .then(res =>{
+      alert('?')
+      setList(res.data)}
     )
     .catch(err => console.log(err))
   }

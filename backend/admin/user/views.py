@@ -1,3 +1,4 @@
+from astroid.builder import objects
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
@@ -9,14 +10,18 @@ from admin.user.serializers import UserSerializer
 from icecream import ic
 
 
-@api_view(['GET','POST'])
+@api_view(['GET', 'POST', 'PUT'])
 @parser_classes([JSONParser])
-def register(request):
+def users(request):
     if request.method == 'GET':
         ic('**********GET')
         all_users = UserVo.objects.all()
+        print(all_users)
         serializer = UserSerializer(all_users, many=True)
-        return JsonResponse(data = serializer, safe = False)
+        ic(serializer.data)
+        data = objects.serializer
+
+        return JsonResponse(data = data, safe = False)
     elif request.method == 'POST':
         ic('**********POST')
         ic(request)
@@ -32,12 +37,23 @@ def register(request):
             serializer.save()
             return JsonResponse({'result' : f'Welcome, {serializer.data.get("name")}'}, status=201)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'PUT':
+        ic('**********PUT')
+        return None
+
+#
+# @api_view(['GET','POST'])
+# @parser_classes([JSONParser])
+# def users(request, id):
+#     pass
 
 
 @api_view(['GET','POST'])
 @parser_classes([JSONParser])
 def login(request):
-    if request.method == 'GET':
-        pass
-    elif request.method == 'POST':
-        pass
+    pass
+
+
+
+
+
