@@ -38,4 +38,6 @@ def register(request):
 @parser_classes([JSONParser])
 def login(request):
     if request.method == 'GET':
+        pass
     elif request.method == 'POST':
+        pass

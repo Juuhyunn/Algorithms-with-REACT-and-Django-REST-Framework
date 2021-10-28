@@ -20,6 +20,3 @@ class UserSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         user.objects.filter(pk=instance.username).update(**validated_data)
-
-    def login(self, validated_data):
-        return user.objects.
