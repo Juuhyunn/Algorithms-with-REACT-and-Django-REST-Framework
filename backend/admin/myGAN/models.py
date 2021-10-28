@@ -63,6 +63,7 @@ CHAPTER_ID = "autoencoders"
 IMAGES_PATH = os.path.join(PROJECT_ROOT_DIR, "images", CHAPTER_ID)
 os.makedirs(IMAGES_PATH, exist_ok=True)
 
+
 class AutoencodersGans(object):
     def __init__(self):
         self.vo = ValueObject()
@@ -105,64 +106,64 @@ class AutoencodersGans(object):
 '''
 Stacked Autoencoders
 '''
-class GenerateFashion(object):
-    def __init__(self):
-        self.vo = ValueObject()
-        self.vo.context = 'admin/myGAN/data/'
-
-    def process(self):
-        (X_train_full, y_train_full), (X_test, y_test) = keras.datasets.fashion_mnist.load_data()
-        X_train_full = X_train_full.astype(np.float32) / 255
-        X_test = X_test.astype(np.float32) / 255
-        X_train, X_valid = X_train_full[:-5000], X_train_full[-5000:]
-        y_train, y_valid = y_train_full[:-5000], y_train_full[-5000:]
-
-        tf.random.set_seed(42)
-        np.random.seed(42)
-
-        stacked_encoder = keras.models.Sequential([
-            keras.layers.Flatten(input_shape=[28, 28]),
-            keras.layers.Dense(100, activation="selu"),
-            keras.layers.Dense(30, activation="selu"),
-        ])
-        stacked_decoder = keras.models.Sequential([
-            keras.layers.Dense(100, activation="selu", input_shape=[30]),
-            keras.layers.Dense(28 * 28, activation="sigmoid"),
-            keras.layers.Reshape([28, 28])
-        ])
-        stacked_ae = keras.models.Sequential([stacked_encoder, stacked_decoder])
-        stacked_ae.compile(loss="binary_crossentropy",
-                           optimizer=keras.optimizers.SGD(learning_rate=1.5),
-                           metrics=[keras.metrics.binary_accuracy(tf.round(y_true), tf.round(y_pred))])
-        history = stacked_ae.fit(X_train, X_train, epochs=20,
-                                 validation_data=(X_valid, X_valid))
-        self.show_reconstructions(stacked_ae)
-        self.save_fig("reconstruction_plot")
-
-    '''
-    def rounded_accuracy(self, y_true, y_pred): # 135번 라인에 직접 입력함
-        return keras.metrics.binary_accuracy(tf.round(y_true), tf.round(y_pred))'''
-
-    def show_reconstructions(self, model, images=X_valid, n_images=5):
-        reconstructions = model.predict(images[:n_images])
-        fig = plt.figure(figsize=(n_images * 1.5, 3))
-        for image_index in range(n_images):
-            plt.subplot(2, n_images, 1 + image_index)
-            self.plot_image(images[image_index])
-            plt.subplot(2, n_images, 1 + n_images + image_index)
-            self.plot_image(reconstructions[image_index])
-
-    def save_fig(self, fig_id, tight_layout=True, fig_extension="png", resolution=300):
-        IMAGES_PATH = self.vo.context
-        path = os.path.join(IMAGES_PATH, fig_id + "." + fig_extension)
-        print("Saving figure", fig_id)
-        if tight_layout:
-            plt.tight_layout()
-        plt.savefig(path, format=fig_extension, dpi=resolution)
-
-    def plot_image(self, image):
-        plt.imshow(image, cmap="binary")
-        plt.axis("off")
+# class GenerateFashion(object):
+#     def __init__(self):
+#         self.vo = ValueObject()
+#         self.vo.context = 'admin/myGAN/data/'
+#
+#     def process(self):
+#         (X_train_full, y_train_full), (X_test, y_test) = keras.datasets.fashion_mnist.load_data()
+#         X_train_full = X_train_full.astype(np.float32) / 255
+#         X_test = X_test.astype(np.float32) / 255
+#         X_train, X_valid = X_train_full[:-5000], X_train_full[-5000:]
+#         y_train, y_valid = y_train_full[:-5000], y_train_full[-5000:]
+#
+#         tf.random.set_seed(42)
+#         np.random.seed(42)
+#
+#         stacked_encoder = keras.models.Sequential([
+#             keras.layers.Flatten(input_shape=[28, 28]),
+#             keras.layers.Dense(100, activation="selu"),
+#             keras.layers.Dense(30, activation="selu"),
+#         ])
+#         stacked_decoder = keras.models.Sequential([
+#             keras.layers.Dense(100, activation="selu", input_shape=[30]),
+#             keras.layers.Dense(28 * 28, activation="sigmoid"),
+#             keras.layers.Reshape([28, 28])
+#         ])
+#         stacked_ae = keras.models.Sequential([stacked_encoder, stacked_decoder])
+#         stacked_ae.compile(loss="binary_crossentropy",
+#                            optimizer=keras.optimizers.SGD(learning_rate=1.5),
+#                            metrics=[keras.metrics.binary_accuracy(tf.round(y_true), tf.round(y_pred))])
+#         history = stacked_ae.fit(X_train, X_train, epochs=20,
+#                                  validation_data=(X_valid, X_valid))
+#         self.show_reconstructions(stacked_ae)
+#         self.save_fig("reconstruction_plot")
+#
+#     '''
+#     def rounded_accuracy(self, y_true, y_pred): # 135번 라인에 직접 입력함
+#         return keras.metrics.binary_accuracy(tf.round(y_true), tf.round(y_pred))'''
+#
+#     def show_reconstructions(self, model, images=X_valid, n_images=5):
+#         reconstructions = model.predict(images[:n_images])
+#         fig = plt.figure(figsize=(n_images * 1.5, 3))
+#         for image_index in range(n_images):
+#             plt.subplot(2, n_images, 1 + image_index)
+#             self.plot_image(images[image_index])
+#             plt.subplot(2, n_images, 1 + n_images + image_index)
+#             self.plot_image(reconstructions[image_index])
+#
+#     def save_fig(self, fig_id, tight_layout=True, fig_extension="png", resolution=300):
+#         IMAGES_PATH = self.vo.context
+#         path = os.path.join(IMAGES_PATH, fig_id + "." + fig_extension)
+#         print("Saving figure", fig_id)
+#         if tight_layout:
+#             plt.tight_layout()
+#         plt.savefig(path, format=fig_extension, dpi=resolution)
+#
+#     def plot_image(self, image):
+#         plt.imshow(image, cmap="binary")
+#         plt.axis("off")
 
 class MuseumFace(object):
     def __init__(self):

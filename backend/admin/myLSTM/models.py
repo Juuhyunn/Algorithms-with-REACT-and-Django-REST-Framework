@@ -3,7 +3,7 @@ import plotly.offline as offline
 import plotly.graph_objs as go
 # import tensorflow.compat.v1 as tf
 import tensorflow as tf
-tf.disable_v2_behavior()
+# tf.disable_v2_behavior()
 from pandas.io.parsers import read_csv
 import numpy as np
 

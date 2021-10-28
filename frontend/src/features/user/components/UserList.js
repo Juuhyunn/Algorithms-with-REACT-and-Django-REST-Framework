@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { UserListForm } from 'features/user/index';
 
 export function UserList() {
-  const SERVER = 'http://localhost:8080'
+  const SERVER = 'http://localhost:8000'
   const [list, setList] = useState([])
   
   const fetchList = () => {
-    axios.get(`${SERVER}/users/list`)
+    axios.get(`${SERVER}/api/users/list`)
     .then(res =>
       setList(res.data)
     )

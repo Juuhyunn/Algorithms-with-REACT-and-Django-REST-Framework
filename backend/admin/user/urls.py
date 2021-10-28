@@ -7,6 +7,7 @@ from admin.user import views
 #     url(r'^api/users/list', views.users)
 # }
 urlpatterns = {
-    url(r'register', views.users),
-    url(r'list', views.users)
+    url(r'register', views.register),
+    # url(r'list', views.list),
+    url(r'login', views.login)
 }

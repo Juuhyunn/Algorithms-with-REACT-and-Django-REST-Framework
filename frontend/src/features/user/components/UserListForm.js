@@ -10,6 +10,8 @@ const UserListForm = ({list}) => {
             <th>사용자 아이디</th>
             <th>사용자 이름</th>
             <th>사용자 이메일</th>
+            <th>사용자 생일</th>
+            <th>사용자 주소</th>
         </tr>   
     </thead>
     <tbody>
@@ -19,6 +21,8 @@ const UserListForm = ({list}) => {
                 <td>{user.username}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+                <td>{user.birth}</td>
+                <td>{user.address}</td>
             </tr>
         ))}
     </tbody>
