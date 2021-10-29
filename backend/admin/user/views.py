@@ -48,12 +48,19 @@ def users(request):
 #     pass
 
 
-@api_view(['GET','POST'])
+@api_view(['POST'])
 @parser_classes([JSONParser])
 def login(request):
+    loginUser = request.data
+    print('*'*100)
+    ic(loginUser)
+    serializer = UserSerializer(data=loginUser, many=True)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse({'result': f'Welcome, {serializer.data}'}, status=201)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def remove(request):
     pass
-
-
-
-
-
