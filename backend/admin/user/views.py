@@ -98,7 +98,7 @@ def remove(request, username):
     ic(type(username))
     dbUser = UserVo.objects.get(pk=username)
     dbUser.delete()
-    return JsonResponse({'Delete Success'}, status=201)
+    return JsonResponse(data = {'result':'Delete Success'}, status=201)
 
 @api_view(['POST'])
 @parser_classes([JSONParser])
