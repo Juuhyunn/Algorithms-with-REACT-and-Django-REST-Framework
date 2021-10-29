@@ -7,7 +7,7 @@ export function UserList() {
   const [list, setList] = useState([])
   
   const fetchList = () => {
-    axios.get(`${SERVER}/api/users`)
+    axios.get(`${SERVER}/api/users/list`)
     .then(res =>{
       alert('?')
       setList(res.data)}

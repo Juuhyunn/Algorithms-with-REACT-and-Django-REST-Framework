@@ -23,8 +23,8 @@ export function UserLogin() {
     userLogin(loginRequest)
     .then(res => {
       const user = res.data
-      if(user.userId != 0) {
-      alert('로그인 성공 : ' + user.userId)
+      if(user.username != 0) {
+      alert('로그인 성공? : ' + user.username)
       localStorage.setItem('sessionUser', JSON.stringify(user))
       history.push('/users/detail')
       }else{

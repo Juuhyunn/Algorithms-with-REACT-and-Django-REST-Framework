@@ -19,9 +19,7 @@ def users(request):
         print(all_users)
         serializer = UserSerializer(all_users, many=True)
         ic(serializer.data)
-        data = objects.serializer
-
-        return JsonResponse(data = data, safe = False)
+        return JsonResponse(data = serializer.data, safe = False)
     elif request.method == 'POST':
         ic('**********POST')
         ic(request)
@@ -49,18 +47,44 @@ def users(request):
 
 
 @api_view(['POST'])
-@parser_classes([JSONParser])
 def login(request):
-    loginUser = request.data
-    print('*'*100)
-    ic(loginUser)
-    serializer = UserSerializer(data=loginUser, many=True)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse({'result': f'Welcome, {serializer.data}'}, status=201)
-    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        loginUser = request.data
+        # print(f'{type(loginUser)}') # <class 'dict'>
+        ic(loginUser)
+        dbUser = UserVo.objects.get(pk = loginUser['username'])
+        print(f'{type(dbUser)}') # <class 'admin.user.models.User'>
+        ic(dbUser)
+        if loginUser['password'] == dbUser.password:
+            print('******** 로그인 성공')
+            userSerializer = UserSerializer(dbUser, many=False)
+            ic(userSerializer)
+            return JsonResponse(data=userSerializer.data, safe=False)
+        else:
+            print('******** 비밀번호 오류')
+            return JsonResponse(data={'result':'PASSWORD-FAIL'}, status=201)
+
+    except UserVo.DoesNotExist:
+        print('*' * 50)
+        print('******** Username 오류')
+        return JsonResponse(data={'result':'USERNAME-FAIL'}, status=201)
 
 
 @api_view(['DELETE'])
 def remove(request):
     pass
+
+
+@api_view(['POST'])
+@parser_classes([JSONParser])
+def detail(request):
+    ic('**********Detail')
+    detailUser = request.data
+    # print(f'{type(loginUser)}') # <class 'dict'>
+    ic(detailUser)
+    dbUser = UserVo.objects.get(pk=detailUser['username'])
+    print(f'{type(dbUser)}')  # <class 'admin.user.models.User'>
+    ic(dbUser)
+    userSerializer = UserSerializer(dbUser, many=False)
+    return JsonResponse(data=userSerializer.data, safe=False)
+

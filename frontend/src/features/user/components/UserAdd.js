@@ -19,7 +19,7 @@ export function UserAdd() {
     }
 
     const userJoin = joinRequest => 
-                axios.post(`${SERVER}/api/users/register`, JSON.stringify(joinRequest),{headers})
+                axios.post(`${SERVER}/api/users/list`, JSON.stringify(joinRequest),{headers})
     const headers = {
         'Content-Type' : 'application/json',
         'Authorization': 'JWT fefege..'
