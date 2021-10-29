@@ -4,18 +4,18 @@ import axios from 'axios';
 
 
 export function UserModify() {
-  const SERVER = 'http://localhost:8080'
+  const SERVER = 'http://localhost:8000'
   const history = useHistory()
   const sessionUser = JSON.parse(localStorage.getItem('sessionUser'));
   const [join, setJoin] = useState({
-    userId: sessionUser.userId,
     username: sessionUser.username, 
     password: sessionUser.password, 
     email: sessionUser.email, 
     name: sessionUser.name, 
-    regDate: sessionUser.regDate
+    birth: sessionUser.birth,
+    address: sessionUser.address
   })
-  const { username, password, email, name } = join
+  const { username, password, email, name, birth, address } = join
   const handleChange = e => {
     e.preventDefault()
     const { value, name } = e.target
@@ -24,7 +24,7 @@ export function UserModify() {
       [name] : value
     })
   }
-  const userJoin = joinRequest => axios.post(`${SERVER}/users`, JSON.stringify(joinRequest), {headers})
+  const userJoin = joinRequest => axios.put(`${SERVER}/api/users/list`, JSON.stringify(joinRequest), {headers})
   const headers = {
     'Content-Type' : 'application/json',
     'Authorization': 'JWT fefege..'
@@ -49,11 +49,6 @@ export function UserModify() {
     <form onSubmit={handleSubmit} method='POST'>
         <ul>
             <li>
-              <label>
-                    <span>회원번호 : {sessionUser.userId} </span>
-                </label>
-            </li>
-            <li>
                 <label>
                     <span>아이디 : {sessionUser.username} </span>
                 </label>
@@ -74,7 +69,16 @@ export function UserModify() {
                     이름 : <input type="text" id="name" name="name" placeholder={sessionUser.name} onChange={handleChange}/>
                 </label>
             </li>
-           
+            <li>
+                <label>
+                    생일 : <input type="date" id="birth" name="birth" placeholder={sessionUser.birth} onChange={handleChange}/>
+                </label>
+            </li>
+            <li>
+                <label>
+                    주소 : <input type="text" id="address" name="address" placeholder={sessionUser.address} onChange={handleChange}/>
+                </label>
+            </li>
             <li>
                 <input type="submit" value="수정확인"/>
             </li>

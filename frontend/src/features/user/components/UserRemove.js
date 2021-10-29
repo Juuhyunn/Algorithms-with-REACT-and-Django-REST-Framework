@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 
 export function UserRemove() {
-  const SERVER = 'http://localhost:8080'
+  const SERVER = 'http://localhost:8000'
   const sessionUser = JSON.parse(localStorage.getItem('sessionUser'))
   const history = useHistory()
   const headers = {
@@ -20,7 +20,7 @@ export function UserRemove() {
     const removeRequest = sessionUser
     if(sessionUser.password === password){
       alert(JSON.stringify(removeRequest.userId))
-      axios.delete(`${SERVER}/users/${sessionUser.userId}`, JSON.stringify(sessionUser.userId), {headers})
+      axios.delete(`${SERVER}/api/users/delete/${sessionUser.username}`, JSON.stringify(sessionUser.username), {headers})
       .then(res => {
         console.log(res.data)
         localStorage.setItem('sessionUser', '')
@@ -41,12 +41,12 @@ export function UserRemove() {
           <ul>
           <li>
               <label>
-                    <span>사용자 번호 : {sessionUser.userId} </span>
+                    <span>사용자 번호 : {sessionUser.username} </span>
                 </label>
             </li>
             <li>
                 <label>
-                    <span>사용자 아이디 : {sessionUser.username} </span>
+                    <span>사용자 아이디 : {sessionUser.name} </span>
                 </label>
             </li>
           <li><label for="pw">비밀번호</label>

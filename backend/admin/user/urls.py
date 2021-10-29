@@ -6,7 +6,7 @@ urlpatterns = {
     url(r'list', views.users),
     url(r'^login', views.login),
     url(r'^detail', views.detail),
-    url(r'^delete/<slug:id>', views.remove),
+    url(r'^delete/(?P<username>\w{0,50})/$', views.remove),
 
 
 }

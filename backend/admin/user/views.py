@@ -37,7 +37,26 @@ def users(request):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
         ic('**********PUT')
-        return None
+        ic(request)
+        edit_user = request.data
+        ic(edit_user)
+        # serializer = UserSerializer(data = new_user['user'])
+        dbUser = UserVo.objects.get(pk=edit_user['username'])
+        print(f'{type(dbUser)}')  # <class 'admin.user.models.User'>
+        ic(f'변경 전 : {dbUser}')
+        # for i in edit_user.keys():
+        #     dbUser.i = edit_user[i]
+        #     # dbUser.save()
+        #     print(i + ": " + dbUser.i)
+        dbUser.name = edit_user["name"]
+        dbUser.email = edit_user["email"]
+        dbUser.password = edit_user["password"]
+        dbUser.birth = edit_user["birth"]
+        dbUser.address = edit_user["address"]
+        ic(f'변경 후 : {dbUser}')
+        dbUser.save()
+        userSerializer = UserSerializer(dbUser, many=False)
+        return JsonResponse(data=userSerializer.data, safe=False)
 
 #
 # @api_view(['GET','POST'])
@@ -71,9 +90,15 @@ def login(request):
 
 
 @api_view(['DELETE'])
-def remove(request):
-    pass
-
+def remove(request, username):
+    ic('**********DELETE')
+    ic(request)
+    del_user = request.data
+    ic(username)
+    ic(type(username))
+    dbUser = UserVo.objects.get(pk=username)
+    dbUser.delete()
+    return JsonResponse({'Delete Success'}, status=201)
 
 @api_view(['POST'])
 @parser_classes([JSONParser])

@@ -39,12 +39,6 @@ export function UserDetail() {
         <ul>
             <li>
                 <label>
-                    <span>회원번호 : {detail.userId} </span>
-                </label>
-                
-            </li>
-            <li>
-                <label>
                     <span>아이디 : {detail.username} </span>
                 </label>
                 
@@ -62,6 +56,16 @@ export function UserDetail() {
             <li>
                 <label>
                 <span>이름 : {detail.name} </span>
+                </label>
+            </li>
+            <li>
+                <label>
+                <span>생일 : {detail.birth} </span>
+                </label>
+            </li>
+            <li>
+                <label>
+                <span>주소 : {detail.address} </span>
                 </label>
             </li>
             <li>
